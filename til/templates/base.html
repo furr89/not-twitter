@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Default title in here{% endblock %}</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <script src="https://kit.fontawesome.com/c70f07125b.js" crossorigin="anonymous"></script>
+    
+</head>
+
+<body>
+
+    <div class="container-fluid">
+        <div class="row flex-nowrap">
+            <div class="col-auto col-md-3 col-xl-2 px-sm-3 px-0 bg-dark">
+                <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
+                    <a href="/" class="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+                        <i class="fa-solid fa-crow fa-xl"></i>
+                        <h1 class="d-none d-sm-inline px-2">!twitter</h1>
+                    </a>
+                    <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
+
+                        <li class="nav-item">
+                            <a href="/" class="nav-link align-middle px-0">Home</a>
+                        </li>                        
+
+                        <li>
+
+                            {% if request.user.is_authenticated %}
+
+                                <li class="nav-item">
+                                    <a href="{% url 'feed:new_post' %}" class="nav-link align-middle px-0">New Post</a>
+                                </li>
+
+                                <a href="{% url 'account_logout' %}" class="nav-link align-middle px-0">Logout</a>
+
+                            {% else %}
+                                <a href="{% url 'account_login' %}" class="nav-link align-middle px-0">Login</a>
+
+                            {% endif %}
+                            
+                        </li>
+                        
+                    </ul>
+                </div>
+            </div>
+            <div class="col py-3">
+                
+                {% block body %}
+                    {% block content %}{% endblock %}
+                {% endblock %}
+
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
