@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+{% load thumbnail %}
+
+<!--user.username is gotton from view.py, the context_object_name-->
+{% block title %} {{ user.username }} {% endblock title %}
+
+{% block body %}
+
+<section style="
+display: flex;
+
+">
+    
+<div class="card m-5" style="border-radius: 15px;">
+    <div class="card-body p-4">
+        <div class="d-flex text-black">
+            
+            <div class="flex-shrink-0">
+
+                <!--Loads user's thumbnail photo, and loads a default profile photo if it's not set-->
+                {% if user.profile.image %}
+                    {% thumbnail user.profile.image "800x800" crop="center" as im %}
+                        <img src={{ im.url }} class="img-fluid" style="width: 180px; border-radius: 10px;">
+                    {% endthumbnail %}
+                
+                {% else %}
+                    <img src="/media/profiles/default-avatar.jpg" class="img-fluid" style="width: 180px; border-radius: 10px;">
+
+                {% endif %}
+                
+            </div>
+
+            <div class="flex-grow-1 ms-3">
+
+                <h5 class="mb-1">@{{ user.username }}</h5>
+                <p class="mb-2 pb-1" style="color: #2b2a2a; width: 200px;">{{ user.profile.bio }}</p>
+
+                <div class="d-flex justify-content-center text-center rounded-3 p-2 mb-2" style="background-color: #efefef;">
+                    <div>
+                        <p class="small text-muted mb-1">Posts</p>
+                        <p class="mb-0">{{ total_posts }}</p>
+                    </div>
+
+                    <div class="px-3">
+                        <p class="small text-muted mb-1">Followers</p>
+                        <p class="mb-0">{{ total_followers}}</p>
+                    </div>
+
+                </div>
+
+                <div class="d-flex pt-1">
+
+                    {% if not request.user.is_authenticated or request.user == user %}
+                        <button type="button" class="btn btn-outline-primary me-1 flex-grow-1 disabled">Chat</button>
+                        <button type="button" class="btn btn-primary flex-grow-1 disabled">Follow</button>
+
+                    {% else %}
+                        <button type="button" class="btn btn-outline-primary me-1 flex-grow-1">Chat</button>
+                        <button type="button" class="btn btn-primary flex-grow-1">Follow</button>
+
+                    {% endif %}
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+</section>
+
+
+{% endblock body %}
